@@ -1,16 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deck = void 0;
+exports.OriginalDeck = exports.shuffledDeck = exports.decks = void 0;
 class decks {
     constructor(deck) {
         this.deck = deck;
     }
-    shuffleCards() {
-        for (let i = 0; i < decks.length; i++) {
+    shufflingCards() {
+        // ? I am using Fisher Yates shuffling algorithm here
+        let shuffledCards = [...exports.OriginalDeck.deck];
+        for (let i = exports.OriginalDeck.deck.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
         }
+        console.log(shuffledCards);
+        console.log(shuffledCards.length);
+        return shuffledCards;
     }
 }
-exports.deck = new decks([
+exports.decks = decks;
+exports.shuffledDeck = new decks([]);
+exports.OriginalDeck = new decks([
     { value: "2", suit: "hearts" },
     { value: "3", suit: "hearts" },
     { value: "4", suit: "hearts" },

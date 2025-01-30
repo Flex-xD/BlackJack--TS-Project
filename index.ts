@@ -1,4 +1,5 @@
-import { deck } from "./deck";
+import { OriginalDeck } from "./deck";
+import { decks } from "./deck";
 import PromptSync from "prompt-sync";
 const prompt = PromptSync();
 
@@ -21,8 +22,10 @@ const bidVerifier = (bid: number): any => {
     }
 }
 
+OriginalDeck.shufflingCards();
 
 
-for (let i = 0; i < deck.deck.length; i++) {
-    console.log(deck.deck[i]);
-}
+
+// for (let i = 0; i < OriginalDeck.deck.length; i++) {
+//     console.log(OriginalDeck.deck[i]);
+// }

@@ -1,17 +1,23 @@
 
-class decks {
-    deck:{value:string; suit:string}[]
-    constructor(deck:{value:string, suit:string}[]) {
+export class decks {
+    deck: { value: string; suit: string }[]
+    constructor(deck: { value: string, suit: string }[]) {
         this.deck = deck
     }
-    shuffleCards () {
-        for (let i = 0 ; i < decks.length ; i++) {
-            
+    shufflingCards () {
+        // ? I am using Fisher Yates shuffling algorithm here
+        let shuffledCards = [...OriginalDeck.deck];
+        for (let i = OriginalDeck.deck.length - 1 ; i > 0; i --) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [shuffledCards[i] , shuffledCards[j]] = [shuffledCards[j] , shuffledCards[i]];
         }
+        return shuffledCards;
     }
 }
 
-export const deck = new decks([
+export const shuffledDeck = new decks([]);
+
+export const OriginalDeck = new decks([
     { value: "2", suit: "hearts" },
     { value: "3", suit: "hearts" },
     { value: "4", suit: "hearts" },

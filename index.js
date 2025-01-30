@@ -23,6 +23,7 @@ const bidVerifier = (bid) => {
         return "Inavlid Bid !";
     }
 };
-for (let i = 0; i < deck_1.deck.deck.length; i++) {
-    console.log(deck_1.deck.deck[i]);
-}
+deck_1.OriginalDeck.shufflingCards();
+// for (let i = 0; i < OriginalDeck.deck.length; i++) {
+//     console.log(OriginalDeck.deck[i]);
+// }
