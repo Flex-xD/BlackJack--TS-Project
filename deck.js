@@ -1,7 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deck = void 0;
-exports.deck = [
+class decks {
+    constructor(deck) {
+        this.deck = deck;
+    }
+    shuffleCards() {
+        for (let i = 0; i < decks.length; i++) {
+        }
+    }
+}
+exports.deck = new decks([
     { value: "2", suit: "hearts" },
     { value: "3", suit: "hearts" },
     { value: "4", suit: "hearts" },
@@ -54,4 +63,4 @@ exports.deck = [
     { value: "Q", suit: "spades" },
     { value: "K", suit: "spades" },
     { value: "A", suit: "spades" }
-];
+]);

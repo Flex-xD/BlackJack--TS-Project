@@ -1,27 +1,28 @@
-import PromptSync from "prompt-sync";
 import { deck } from "./deck";
-
+import PromptSync from "prompt-sync";
 const prompt = PromptSync();
 
-let playersFirstBid: boolean = false;
+const playersMoney = 100;
+const playersFirstBid: boolean = false;
 
-const verifyingBid = (bid: number): string | boolean => {
-    if (playersFirstBid === false) {
-        if (bid < 0) {
-            return "Invalid Bid !"
-        } else if (bid < 100) {
-            return "First bid of the game must be of 100$ !"
-        } else {
-            return playersFirstBid = true;
-        }
+// ! Project critereas 
+// ? #1 Make a bid verifying function 
+// ? #2 Make a shuffling algorithm
+// ? #3 Make a hit / stand function 
+// ? #4 Make differnce between the player and the dealer
+// ? #5 Make winning and losing criteria 
+
+// * BID VERIFIER
+const bidVerifier = (bid: number): any => {
+    if (bid < 0) {
+        return "Invalid Bid !"
+    } else if (bid > playersMoney) {
+        return "Inavlid Bid !"
     }
-    return playersFirstBid = true;
 }
 
-const blackJack = (bid:number) :unknown => {
-    let playersBid = prompt("Enter the amount of Bid !")
-    if (verifyingBid(bid) === (playersFirstBid === true)) {
-        console.log(bid);
-    }
-    return "hello"
+
+
+for (let i = 0; i < deck.deck.length; i++) {
+    console.log(deck.deck[i]);
 }

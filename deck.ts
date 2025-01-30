@@ -1,4 +1,17 @@
-export const deck : {value:string , suit:string}[] = [
+
+class decks {
+    deck:{value:string; suit:string}[]
+    constructor(deck:{value:string, suit:string}[]) {
+        this.deck = deck
+    }
+    shuffleCards () {
+        for (let i = 0 ; i < decks.length ; i++) {
+            
+        }
+    }
+}
+
+export const deck = new decks([
     { value: "2", suit: "hearts" },
     { value: "3", suit: "hearts" },
     { value: "4", suit: "hearts" },
@@ -54,4 +67,4 @@ export const deck : {value:string , suit:string}[] = [
     { value: "Q", suit: "spades" },
     { value: "K", suit: "spades" },
     { value: "A", suit: "spades" }
-];
+]);
