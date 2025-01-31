@@ -23,7 +23,33 @@ const bidVerifier = (bid) => {
         return "Inavlid Bid !";
     }
 };
-deck_1.OriginalDeck.shufflingCards();
-// for (let i = 0; i < OriginalDeck.deck.length; i++) {
-//     console.log(OriginalDeck.deck[i]);
-// }
+class GamePlayers {
+    constructor(cards) {
+        this.cards = cards;
+    }
+    cardsForHitting() {
+    }
+    hit() {
+    }
+    stand() {
+    }
+}
+// * Game's Player
+class Player extends GamePlayers {
+    constructor(cards) {
+        super(cards);
+        // this.cards = cards
+    }
+    static generateRandomCards() {
+        let randomOne = Math.floor(Math.random() * (deck_1.OriginalDeck.deck.length));
+        let randomTwo = Math.floor(Math.random() * (deck_1.OriginalDeck.deck.length));
+        deck_1.OriginalDeck.shufflingCards();
+        return [deck_1.OriginalDeck.shufflingCards()[randomOne], deck_1.OriginalDeck.shufflingCards()[randomTwo]];
+    }
+}
+const gameStarts = () => {
+    let playersInitailCards = Player.generateRandomCards();
+    const player = new Player(playersInitailCards);
+    console.log(player);
+};
+gameStarts();

@@ -22,10 +22,44 @@ const bidVerifier = (bid: number): any => {
     }
 }
 
-OriginalDeck.shufflingCards();
+// * Dealer and Player
+type card = { value: string; suit: string };
+type gamesBothCard = card[];
 
+abstract class GamePlayers {
+    protected cards: gamesBothCard
+    constructor(cards: gamesBothCard) {
+        this.cards = cards
+    }
+    cardsForHitting() {
 
+    }
+    hit() {
 
-// for (let i = 0; i < OriginalDeck.deck.length; i++) {
-//     console.log(OriginalDeck.deck[i]);
-// }
+    }
+    stand() {
+
+    }
+}
+
+// * Game's Player
+class Player extends GamePlayers {
+    constructor(cards: gamesBothCard) {
+        super(cards)
+        // this.cards = cards
+    }
+    static generateRandomCards(): gamesBothCard {
+        let randomOne = Math.floor(Math.random() * (OriginalDeck.deck.length));
+        let randomTwo = Math.floor(Math.random() * (OriginalDeck.deck.length));
+        OriginalDeck.shufflingCards();
+        return [OriginalDeck.shufflingCards()[randomOne], OriginalDeck.shufflingCards()[randomTwo]];
+    }
+}
+
+const gameStarts = () => {
+    let playersInitailCards = Player.generateRandomCards();
+    const player = new Player(playersInitailCards);
+    console.log(player); 
+}
+
+gameStarts()

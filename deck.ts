@@ -1,7 +1,9 @@
 
-export class decks {
-    deck: { value: string; suit: string }[]
-    constructor(deck: { value: string, suit: string }[]) {
+type cards = { value: string; suit: string }[];
+
+export class decks{
+    deck:cards
+    constructor(deck:cards) {
         this.deck = deck
     }
     shufflingCards () {
@@ -11,11 +13,11 @@ export class decks {
             let j = Math.floor(Math.random() * (i + 1));
             [shuffledCards[i] , shuffledCards[j]] = [shuffledCards[j] , shuffledCards[i]];
         }
-        return shuffledCards;
+        console.log(shuffledCards)
+        return shuffledCards as cards;
     }
 }
 
-export const shuffledDeck = new decks([]);
 
 export const OriginalDeck = new decks([
     { value: "2", suit: "hearts" },
