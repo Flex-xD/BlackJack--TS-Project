@@ -41,15 +41,31 @@ class Player extends GamePlayers {
         // this.cards = cards
     }
     static generateRandomCards() {
-        let randomOne = Math.floor(Math.random() * (deck_1.OriginalDeck.deck.length));
-        let randomTwo = Math.floor(Math.random() * (deck_1.OriginalDeck.deck.length));
+        let shuffledDeck = deck_1.OriginalDeck.shufflingCards();
+        let randomOne = Math.floor(Math.random() * (shuffledDeck.length));
+        let randomTwo = Math.floor(Math.random() * (shuffledDeck.length));
         deck_1.OriginalDeck.shufflingCards();
-        return [deck_1.OriginalDeck.shufflingCards()[randomOne], deck_1.OriginalDeck.shufflingCards()[randomTwo]];
+        let playerCards = [shuffledDeck[randomOne], shuffledDeck[randomTwo]];
+        return playerCards;
+    }
+}
+class Dealer extends GamePlayers {
+    constructor(cards) {
+        super(cards);
+    }
+    static generateRandomCards() {
+        let shuffledDeck = deck_1.OriginalDeck.shufflingCards();
+        let randomOne = Math.floor(Math.random() * (shuffledDeck.length));
+        let randomTwo = Math.floor(Math.random() * (shuffledDeck.length));
+        deck_1.OriginalDeck.shufflingCards();
+        let dealerCards = [shuffledDeck[randomOne], shuffledDeck[randomTwo]];
+        return dealerCards;
     }
 }
 const gameStarts = () => {
-    let playersInitailCards = Player.generateRandomCards();
-    const player = new Player(playersInitailCards);
-    console.log(player);
+    const player = new Player(Player.generateRandomCards());
+    const dealer = new Dealer(Dealer.generateRandomCards());
+    console.log(player.cards);
+    console.log(dealer.cards);
 };
 gameStarts();
