@@ -1,82 +1,84 @@
-import { OriginalDeck } from "./deck";
-import { decks } from "./deck";
-import PromptSync from "prompt-sync";
-const prompt = PromptSync();
+import Deck from "./deck";
+import { ICard } from "./types";
+import { getBet, getDecision, getHandValue, getStrHand } from "./utils";
 
-const playersMoney = 100;
-const playersFirstBid: boolean = false;
+function playerTurn(playerHand: ICard[], deck: Deck): number {
+    let handValue = getHandValue(playerHand);
 
-// ! Project critereas 
-// ? #1 Make a bid verifying function 
-// ? #2 Make a shuffling algorithm
-// ? #3 Make a hit / stand function 
-// ? #4 Make differnce between the player and the dealer
-// ? #5 Make winning and losing criteria 
+    while (true) {
+        const action = getDecision();
+        if (action !== "hit") return handValue;
 
-// * BID VERIFIER
-const bidVerifier = (bid: number): any => {
-    if (bid < 0) {
-        return "Invalid Bid !"
-    } else if (bid > playersMoney) {
-        return "Inavlid Bid !"
+        playerHand.push(deck.deal(1)[0]);
+        handValue = getHandValue(playerHand);
+        console.log(`Your hand: ${getStrHand(playerHand)} (Total: ${handValue})`);
+
+        if (handValue > 21) {
+            return handValue;
+        }
     }
 }
 
-// * Dealer and Player
-type card = { value: string; suit: string };
-type gameCards = card[];
+function dealerTurn(dealerHand: ICard[], deck: Deck): number {
+    let handValue = getHandValue(dealerHand);
 
-abstract class GamePlayers {
-    cards: gameCards
-    constructor(cards: gameCards) {
-        this.cards = cards
-    }
-    cardsForHitting() {
+    while (true) {
+        console.log(
+            `Dealer's hand: ${getStrHand(dealerHand)} (Total: ${handValue})`
+        );
+        if (handValue >= 17) return handValue;
 
-    }
-    hit() {
-
-    }
-    stand() {
-
+        dealerHand.push(deck.deal(1)[0]);
+        handValue = getHandValue(dealerHand);
     }
 }
 
-// * Game's Player
-class Player extends GamePlayers {
-    constructor(cards: gameCards) {
-        super(cards)
-        // this.cards = cards
+let dealerHand: ICard[] = [];
+let playerHand: ICard[] = [];
+const deck: Deck = new Deck();
+let balance = 100;
+
+while (balance > 0) {
+    console.log(`\nPlayer funds $${balance}`);
+    const bet = getBet(balance);
+    balance -= bet;
+
+    // Deal the cards
+    deck.reset();
+    playerHand = deck.deal(2);
+    dealerHand = deck.deal(2);
+
+    const playerValue = getHandValue(playerHand);
+    const dealerValue = getHandValue(dealerHand);
+
+    console.log(`Your hand: ${getStrHand(playerHand)} (Total: ${playerValue})`);
+    console.log(`Dealer's hand: ${getStrHand(dealerHand, true)}`);
+    if (playerValue === 21) {
+        balance += bet * 2.5;
+        console.log(`Blackjack! You won $${bet * 2.5}`);
+        continue;
+    } else if (dealerValue === 21) {
+        console.log(`Dealer's hand: ${getStrHand(dealerHand)}, (Total: 21)`);
+        console.log("Dealer has Blackjack, you lost...");
+        continue;
     }
-    static generateRandomCards(): gameCards {
-        let shuffledDeck = OriginalDeck.shufflingCards()
-        let randomOne = Math.floor(Math.random() * (shuffledDeck.length));
-        let randomTwo = Math.floor(Math.random() * (shuffledDeck.length));
-        OriginalDeck.shufflingCards();
-        let playerCards = [shuffledDeck[randomOne], shuffledDeck[randomTwo]];
-        return playerCards;
+
+    const finalPlayerValue = playerTurn(playerHand, deck);
+    if (finalPlayerValue > 21) {
+        console.log("You bust and lost...");
+        continue;
+    }
+    const finalDealerValue = dealerTurn(dealerHand, deck);
+    if (finalDealerValue > 21 || finalPlayerValue > finalDealerValue) {
+        balance += bet * 2;
+        console.log(`You won $${bet * 2}`);
+    }
+    else if (finalDealerValue === finalPlayerValue) {
+        balance += bet
+        console.log("Push (tie).")
+    } else {
+        console.log("You lost to the dealer.")
     }
 }
 
-class Dealer extends GamePlayers {
-    constructor(cards:gameCards) {
-        super(cards);
-    }
-    static generateRandomCards(): gameCards {
-        let shuffledDeck = OriginalDeck.shufflingCards()
-        let randomOne = Math.floor(Math.random() * (shuffledDeck.length));
-        let randomTwo = Math.floor(Math.random() * (shuffledDeck.length));
-        OriginalDeck.shufflingCards();
-        let dealerCards = [shuffledDeck[randomOne], shuffledDeck[randomTwo]];
-        return dealerCards;
-    }
-}
-
-const gameStarts = () => {
-    const player = new Player(Player.generateRandomCards());
-    const dealer = new Dealer(Dealer.generateRandomCards());
-    console.log(player.cards);
-    console.log(dealer.cards);
-}
-
-gameStarts()
+console.log("You ran out of money!");
